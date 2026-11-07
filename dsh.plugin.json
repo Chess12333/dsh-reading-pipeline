@@ -1,0 +1,9 @@
+{
+  "name": "dsh-reading-pipeline",
+  "description": "Reading pipeline as DSH tools: outline a book, build a vector index over your notes, search by meaning, pull page text with a real browser.",
+  "version": "0.2.0",
+  "entry": {
+    "name": "dsh-reading-pipeline",
+    "inject": ["tools"]
+  }
+}

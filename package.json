@@ -1,0 +1,45 @@
+{
+  "name": "dsh-reading-pipeline",
+  "version": "0.2.0",
+  "description": "Turn reading into something searchable later: fetch text, outline a book, keep structured notes, then search by meaning. · 把「读一本书」变成「读完留下可检索的东西」：抓正文、出目录、按格式记笔记、按意思搜回原句。",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek",
+    "reading",
+    "notes",
+    "semantic-search",
+    "embeddings",
+    "cli"
+  ],
+  "type": "module",
+  "main": "./src/index.js",
+  "bin": {
+    "reading-pipeline": "./bin/reading-pipeline.mjs"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./config": "./src/config.mjs",
+    "./embed-local": "./src/embed-local.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "notes-format.md",
+    "cordis.patch.yml",
+    "dsh.plugin.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "doctor": "node bin/reading-pipeline.mjs doctor",
+    "test": "node --test test/*.test.mjs"
+  },
+  "optionalDependencies": {
+    "ws": "^8.18.0"
+  },
+  "license": "MIT"
+}

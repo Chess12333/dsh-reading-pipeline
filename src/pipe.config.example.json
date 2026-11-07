@@ -1,6 +1,9 @@
 {
   "_说明": "复制成 pipe.config.json 再改；跑 reading-pipeline install 会自动生成一份。mode: auto=远端不通就退回内置哈希 / remote=只准远端 / local=只用内置。",
   "root": "",
+  "书库": "",
+  "转好的书存哪": "",
+  "进度记在哪": "",
   "dirs": [
     [
       "reading",

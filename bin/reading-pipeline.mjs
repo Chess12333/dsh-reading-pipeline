@@ -7,6 +7,8 @@
  *   npx dsh-reading-pipeline install        # 建目录、写配置、体检（幂等，可重跑）
  *   npx dsh-reading-pipeline doctor         # 只看体检结果
  *   npx dsh-reading-pipeline outline 书.txt
+ *   npx dsh-reading-pipeline convert 某本.epub      # 电子书 → txt
+ *   npx dsh-reading-pipeline convert-all            # 整库批量转
  *   npx dsh-reading-pipeline gettext  <url>
  *   npx dsh-reading-pipeline page     <url>
  *   npx dsh-reading-pipeline read     书.txt 第3章
@@ -31,6 +33,8 @@ const rest = argv.filter((a) => !a.startsWith('--root='))
 
 const ROUTES = {
   outline: 'book-outline.mjs',
+  convert: 'to-txt.mjs',
+  'convert-all': 'convert-all.mjs',
   gettext: 'gettext.mjs',
   page: 'page-text.mjs',
   'page-text': 'page-text.mjs',
@@ -70,7 +74,8 @@ function install() {
   say(`\n装好了：${root}`)
   say('下一步：把 .md 笔记放进 reading/ 或 learned/，然后')
   say('  reading-pipeline index build')
-  say('  reading-pipeline search "查什么"\n')
+  say('  reading-pipeline search "查什么"')
+  say('有电子书要读：把「书库」填进 pipe.config.json，跑 reading-pipeline convert-all\n')
   doctor()
 }
 
@@ -129,6 +134,8 @@ async function main() {
     say('  install            建目录 + 写配置 + 体检（幂等）')
     say('  doctor             只体检')
     say('  outline <书.txt>   出章节目录')
+    say('  convert <书>       转成 txt（epub / pdf 文本层 / txt 换编码）')
+    say('  convert-all        把书库整批转成 txt（--dry 只看清单）')
     say('  gettext <url>      抓静态页正文')
     say('  page    <url>      用真浏览器抽正文（动态页）')
     say('  read    <书> <章>  读指定章节')

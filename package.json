@@ -1,6 +1,6 @@
 {
   "name": "dsh-reading-pipeline",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Turn reading into something searchable later: fetch text, outline a book, keep structured notes, then search by meaning. · 把「读一本书」变成「读完留下可检索的东西」：抓正文、出目录、按格式记笔记、按意思搜回原句。",
   "keywords": [
     "dsh",

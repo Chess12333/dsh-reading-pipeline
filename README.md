@@ -6,9 +6,9 @@
 中间那一步没有脚本，是模型自己读、自己写笔记——这是整套东西的关键，也是唯一不能自动化的部分。
 
 ```
-取正文 ──→ 切块/切章 ──→ 读，压成自己的话 ──→ 按意思查回原句
-gettext                    （你自己，格式见
-page     →  outline          notes-format.md）        → index + search
+电子书 ──→ 取正文 ──→ 切块/切章 ──→ 读，压成自己的话 ──→ 按意思查回原句
+convert    gettext                    （你自己，格式见
+convert-all  page     →  outline        notes-format.md）     → index + search
 ```
 
 ---
@@ -40,6 +40,8 @@ reading-pipeline install
 ## 用
 
 ```bash
+reading-pipeline convert 书库/某本.epub    # 电子书 → txt（epub / pdf 文本层 / txt 换编码）
+reading-pipeline convert-all              # 把书库整批转成 txt（--dry 只看清单）
 reading-pipeline outline 书.txt        # 章号 / 起始行 / 章名 / 字数，先看骨架再挑章节
 reading-pipeline gettext https://…     # 静态页正文（剥标签，默认截 6000 字）
 reading-pipeline page    https://…     # 动态页正文（真浏览器渲染，知乎/贴吧这类用它）
@@ -49,11 +51,27 @@ reading-pipeline search  "局部处理为什么要乘上数量"
 reading-pipeline doctor                # 只体检，不改东西
 ```
 
+## 电子书转成 txt（`convert` / `convert-all`）
+
+| 格式 | 结果 |
+|---|---|
+| `.txt` | 换编码：UTF-8 / GB18030 自动认，统一成 UTF-8 |
+| `.epub` | 解 zip、按 spine 顺序拼正文、剥标签。**零依赖**，不调外部命令 |
+| `.pdf` | 只试文本层；扫描件抽不出就明说，不做 OCR |
+| `.mobi` / `.azw3` | 不转，给一句原因——先自己转成 epub 或 txt |
+
+书库填在 `书库`（英文键 `library`）里，相对路径按 `root` 解析；`转好的书存哪`（`books`）留空就落在 `<root>/reading`，正好是 `outline` 和 `readbook` 找书的地方。整库转的时候 `--dry` 只列清单，真转完会给「成功 / 认不出章名 / 转不了 + 原因」三档。
+
+> 这一段是 2026-11-07 从一份别人给的「读书工具-20261107.zip」里**并进来**的（原作者署名：工程师安菲）。合并时只动了三处：配置接回本包（原来是脚本旁边的 `config.json`）、解压改用内置 zip 解析（系统 `tar` 在 GNU 版下解不了 zip，实测报 `This does not look like a tar archive`）、清单口径跟 `to-txt` 的真实能力对齐（原来代码写着支持 pdf/mobi，说明书说不行）。
+
 ## 配置（`pipe.config.json`）
 
 | 键 | 默认 | 说明 |
 |---|---|---|
 | `root` | `""` | 留空 = 当前目录 |
+| `书库` / `library` | `""` | 电子书目录，`convert-all` 从这儿扫。相对路径按 `root` 解析；两项是同一个键的中英文写法，填一个就行 |
+| `转好的书存哪` / `books` | `""` | 转出来的 txt 放哪；空 = `<root>/reading` |
+| `进度记在哪` / `work` | `""` | `readbook` 的进度与切出来的段落放哪；空 = `<root>/live` |
 | `dirs` | `[["reading","reading"],["learned","learned"]]` | 哪几个目录进索引；每项 `[目录名, 标签]` |
 | `embed.endpoint` | `http://127.0.0.1:18081/v1/embeddings` | 任何 **OpenAI 兼容**的嵌入接口都行 |
 | `embed.model` | `bge-base-zh-v1.5-q8_0` | 传给上面那个接口的 model 名 |
